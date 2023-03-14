@@ -2,6 +2,7 @@ FourCastNet Inference
 =====================
 
 This repository is forked from the official [FourCastNet](https://github.com/NVlabs/FourCastNet).
+For references and citations, please refer to the official repository.
 
 In addition to the official FourCastNet, this repository contains code that performs inference
 on NCI version of ERA5 from project rt52.
