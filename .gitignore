@@ -3,6 +3,10 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# default virtualenv / test outputs
+python_env/
+inference_nci/test_outputs
+
 # C extensions
 *.so
 
