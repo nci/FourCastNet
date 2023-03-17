@@ -146,7 +146,10 @@ def autoregressive_inference(params, valid_data, backbone_model, precip_model):
     valid_data = (valid_data - means)/stds
     valid_data = torch.as_tensor(valid_data).to(device, dtype=torch.float)
 
-    std = torch.as_tensor(stds[:,0,0]).to(device, dtype=torch.float)
+    ## NCI ERA5 has a lontitude range between -180 and 180.
+    ## FourCastNet, however, was trained on ERA5 with a lontitude range between 0 and 360.
+    ## Thus, we need to roll NCI ERA5 by 180 degrees to match FourCastNet's training data.
+    valid_data = torch.roll(valid_data, img_shape_y // 2, dims=-1)
 
     orography = params.orography
     orography_path = params.orography_path
@@ -187,6 +190,9 @@ def autoregressive_inference(params, valid_data, backbone_model, precip_model):
     if params.ensemble_size > 1:
       seq_pred[i] /= float(params.ensemble_size)
       precip_seq_pred[i] /= float(params.ensemble_size)
+
+    seq_pred = torch.roll(seq_pred, img_shape_y // 2, dims=-1)
+    precip_seq_pred = torch.roll(precip_seq_pred, img_shape_y // 2, dims=-1)
 
     seq_pred = seq_pred.cpu().numpy() * stds + means
     precip_seq_pred = unlog_tp_torch(precip_seq_pred).cpu().squeeze(1).numpy()
