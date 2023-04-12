@@ -73,10 +73,10 @@ afno_backbone: &backbone
   exp_dir: '/pscratch/sd/s/shas1693/results/era5_wind'
   train_data_path: '/pscratch/sd/s/shas1693/data/era5/train'
   valid_data_path: '/pscratch/sd/s/shas1693/data/era5/test'
-  inf_data_path:   '/pscratch/sd/s/shas1693/data/era5/out_of_sample'
-  time_means_path:   '/pscratch/sd/s/shas1693/data/era5/time_means.npy'
-  global_means_path: '/pscratch/sd/s/shas1693/data/era5/global_means.npy'
-  global_stds_path:  '/pscratch/sd/s/shas1693/data/era5/global_stds.npy'
+  inf_data_path:   '/g/data/wb00/admin/staging/FourCastNet/nvlab/v0/data/FCN_ERA5_data/out_of_sample/'
+  time_means_path:   '/g/data/wb00/admin/staging/FourCastNet/nvlab/v0/data/stats/time_means.npy'
+  global_means_path: '/g/data/wb00/admin/staging/FourCastNet/nvlab/v0/data/stats/global_means.npy'
+  global_stds_path:  '/g/data/wb00/admin/staging/FourCastNet/nvlab/v0/data/stats/global_stds.npy'
 
 afno_backbone_orography: &backbone_orography 
   <<: *backbone
@@ -124,8 +124,8 @@ precip: &precip
   lr: 2.5E-4
   batch_size: 64
   max_epochs: 25
-  precip: '/pscratch/sd/p/pharring/ERA5/precip/total_precipitation'
-  time_means_path_tp: '/pscratch/sd/p/pharring/ERA5/precip/total_precipitation/time_means.npy'
-  model_wind_path: '/pscratch/sd/s/shas1693/results/era5_wind/afno_backbone_finetune/0/training_checkpoints/best_ckpt.tar'
+  precip: '/g/data/wb00/admin/staging/FourCastNet/nvlab/v0/data/FCN_ERA5_data/precip'
+  time_means_path_tp: '/g/data/wb00/admin/staging/FourCastNet/nvlab/v0/data/stats/time_means.npy'
+  model_wind_path: '/g/data/wb00/admin/staging/FourCastNet/nvlab/v0/pretrained/backbone.ckpt'
   precip_eps: !!float 1e-5
 
