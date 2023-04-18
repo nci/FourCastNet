@@ -12,7 +12,7 @@
 set -eu
   
 module use /g/data/dk92/apps/Modules/modulefiles
-module load NCI-ai-ml/22.11
+module load NCI-ai-ml/23.01
 module load cuda/11.7.0
 
 pretrained_root=<pre-trained root>
@@ -22,7 +22,7 @@ output_path=<output path>
 python inference/inference.py \
     --config=afno_backbone \
     --run_num=0 --vis   \
-    --weights '/g/data/wb00/admin/staging/FourCastNet/nvlab/v0/pretrained/backbone.ckpt' \
+    --weights '/g/data/wb00/FourCastNet/nvlab/v0/pretrained/backbone.ckpt' \
     --override_dir './output'
 
 # Run inference_ensemble AFNO Backbone
@@ -31,14 +31,14 @@ python inference/inference_ensemble.py \
     --run_num=0 \
     --n_pert 10 \
     --override_dir './output'  \
-    --weights '/g/data/wb00/admin/staging/FourCastNet/nvlab/v0/pretrained/backbone.ckpt'
+    --weights '/g/data/wb00/FourCastNet/nvlab/v0/pretrained/backbone.ckpt'
     
 # Run inference for precipitation
 python inference/inference_precip.py \
     --config=precip \
     --run_num=0 \
     --vis \
-    --weights '/g/data/wb00/admin/staging/FourCastNet/nvlab/v0/pretrained/precip.ckpt' \
+    --weights '/g/data/wb00/FourCastNet/nvlab/v0/pretrained/precip.ckpt' \
     --override_dir './output'
 
 # Run inference to generate preds.zarr
