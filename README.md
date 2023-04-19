@@ -15,8 +15,9 @@ Setup
 * Run `bash setup.sh` to set up the environment. This script sets up a Python virtualenv with all the
   required dependencies.
 
-* The inference requires pretrained weights and input normalization statistics. These files are now at
-  `/g/data/wb00/admin/staging/FourCastNet/v0`.
+* The inference requires pretrained weights and input normalization statistics. The pretrained weights
+  are at `/g/data/wb00/FourCastNet/nvlab/v0/pretrained` and the input normalization statistics are at 
+  `/g/data/wb00/FourCastNet/nvlab/v0/data/stats`.
 
 Notebooks
 ---------
