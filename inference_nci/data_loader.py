@@ -143,8 +143,8 @@ def format_FourCastNet(query_times, dst_path):
 ## test
 if __name__ == '__main__':
   query_times = [
-    datetime(2020, 1, 1, hour=0),
-    datetime(2020, 1, 1, hour=6),
+    datetime(2018, 1, 1, hour=0),
+    datetime(2018, 1, 8, hour=6),
   ]
 
   dst_file_path = 'test_outputs/gt.zarr'
