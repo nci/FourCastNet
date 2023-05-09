@@ -15,7 +15,7 @@ module use /g/data/dk92/apps/Modules/modulefiles
 module load NCI-ai-ml/23.01
 module load cuda/11.7.0
 
-pretrained_root=<pre-trained root>
+pretrained_root=<pre-trained root>      # Current pretrained models are available at /g/data/wb00/FourCastNet/nvlab/v0/pretrained
 output_path=<output path>
 
 # Run inference AFNO Backbone 
