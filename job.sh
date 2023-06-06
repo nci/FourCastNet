@@ -4,19 +4,21 @@
 #PBS -l ncpus=12
 #PBS -l ngpus=1
 #PBS -l jobfs=200GB
-#PBS -l storage=gdata/dk92+gdata/wb00+(INSERT ANY ADDITIONAL STORAGE HERE)
-#PBS -l mem=48GB
+#PBS -l storage=gdata/dk92+gdata/wb00+gdata/rt52+<YOUR_PROJECT_STORAGE>
+#PBS -l mem=200GB
 #PBS -l walltime=08:00:00
-#PBS -P INSERT PROJECT
+#PBS -l wd
+#PBS -P <YOUR_PROJECT_HERE>
 
 set -eu
   
 module use /g/data/dk92/apps/Modules/modulefiles
-module load NCI-ai-ml/23.01
+module load NCI-ai-ml/23.03
 module load cuda/11.7.0
 
-pretrained_root=<pre-trained root>      # Current pretrained models are available at /g/data/wb00/FourCastNet/nvlab/v0/pretrained
-output_path=<output path>
+checkpoint_dir='/g/data/wb00/FourCastNet/nvlab/v0/pretrained'
+stats_dir='/g/data/wb00/FourCastNet/nvlab/v0/data/stats/'
+output_path='./output'
 
 # Run inference AFNO Backbone 
 python inference/inference.py \
@@ -42,11 +44,11 @@ python inference/inference_precip.py \
     --override_dir './output'
 
 # Run inference to generate preds.zarr
-python -u inference_nci/inference.py \
-  --start_time=2017-12-31T18:00:00 \
-  --end_time=2018-12-30T18:00:00 \
-  --checkpoint_dir=$pretrained_root/FCN_weights_v0 \
-  --stats_dir=$pretrained_root/stats_v0 \
+python -u ./inference_nci/inference.py \
+  --start_time=2018-1-01T18:00:00 \
+  --end_time=2018-1-15T18:00:00 \
+  --checkpoint_dir=$checkpoint_dir \
+  --stats_dir=$stats_dir \
   --output_path=$output_path \
   --prediction_length=20
         
