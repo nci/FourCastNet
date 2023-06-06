@@ -350,19 +350,30 @@ if __name__ == '__main__':
     coord_time[:] = np.array(pred_times, dtype='datetime64[ns]')
 
     in_channels = np.array(params.in_channels)
+    
+    # Profiling Activity
+    from torch.profiler import profile, record_function, ProfilerActivity
+    
+    with torch.profiler.profile(
+        # schedule=torch.profiler.schedule(wait=1, warmup=1, active=3, repeat=2),
+        on_trace_ready=torch.profiler.tensorboard_trace_handler('./log/fcn'),
+        record_shapes=True,
+        profile_memory=True,
+        with_stack=True
+    ) as prof:
 
-    for ic in range(n_ics):
-        query_time = prediction_times[ic][0]
-        logging.info(f'initial condition({ic+1}/{n_ics}): {query_time}')
+        for ic in range(n_ics):
+            query_time = prediction_times[ic][0]
+            logging.info(f'initial condition({ic+1}/{n_ics}): {query_time}')
 
-        init_vals = dl.get_data(query_time)
-        init_vals = init_vals[:, in_channels, 0:img_shape_x]
+            init_vals = dl.get_data(query_time)
+            init_vals = init_vals[:, in_channels, 0:img_shape_x]
 
-        seq_pred, precip_seq_pred = autoregressive_inference(params, init_vals, backbone_model, precip_model)
+            seq_pred, precip_seq_pred = autoregressive_inference(params, init_vals, backbone_model, precip_model)
 
-        t_start = ic * prediction_length
-        t_end = t_start + prediction_length
-        for c_idx in range(num_channels):
-            ds_vars[c_idx][t_start:t_end, ...] = seq_pred[:, c_idx, ...]
+            t_start = ic * prediction_length
+            t_end = t_start + prediction_length
+            for c_idx in range(num_channels):
+                ds_vars[c_idx][t_start:t_end, ...] = seq_pred[:, c_idx, ...]
 
-        ds_vars[-1][t_start:t_end, ...] = precip_seq_pred
+            ds_vars[-1][t_start:t_end, ...] = precip_seq_pred
